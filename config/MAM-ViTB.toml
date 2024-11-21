@@ -1,0 +1,53 @@
+# Refer to utils/config.py for definition and options.
+
+version = "mam_vitb"
+dist = true
+wandb = false
+
+[model]
+trimap_channel = 3
+mask_channel = 1
+batch_size = 8
+freeze_seg = true
+self_refine_width1 = 30
+self_refine_width2 = 15
+    [model.arch]
+    seg = "sam_vit_b"
+    m2m = "sam_decoder_deep"
+
+[train]
+total_step = 20000
+warmup_step = 4000
+val_step = 0
+clip_grad = true
+G_lr = 5e-4
+rec_weight = 1.0
+lap_weight = 1.0
+# Uncomment to resume training
+#resume_checkpoint = "path/to/checkpoint"
+#reset_lr = false
+
+[data]
+d646_fg = "../Distinctions-646/train/fg"
+d646_pha = "../Distinctions-646/train/alpha"
+aim_fg = "../AMD/train/fg"
+aim_pha = "../AMD/train/alpha"
+coco_bg = "../coco_xhuman/"
+bg20k_bg = "../BG-20k/train"
+workers = 0
+crop_size = 1024
+cutmask_prob = 0.25
+pha_ratio = 0.5
+augmentation = true
+random_interp = true
+real_world_aug = false
+
+[log]
+tensorboard_path = "./logs/tensorboard"
+tensorboard_step = 100
+tensorboard_image_step = 2000
+logging_path = "./logs/stdout"
+logging_step =  10
+logging_level = "INFO"
+checkpoint_path = "./checkpoints/"
+checkpoint_step = 2000
